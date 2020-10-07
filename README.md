@@ -10,11 +10,6 @@ View more on [YouTube](https://www.youtube.com/playlist?list=PLc493xNgYTbJDNa5MN
 ```
 cargo run --release
 ```
-or
-```
-cargo build --release
-time ./target/release/mult_persistence
-```
 ## Run tests
 ```
 cargo test
