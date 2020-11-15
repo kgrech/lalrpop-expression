@@ -1,3 +1,3 @@
-import * as wasm from "hello-wasm-pack";
+import * as wasm from "lalrpop-expresion";
 
-wasm.greet();
+alert(wasm.evaluate("2+4*10"));
