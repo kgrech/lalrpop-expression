@@ -1,19 +1,22 @@
 #[macro_use]
 extern crate lalrpop_util;
 
+use wasm_bindgen::prelude::*;
+
 mod ast;
 lalrpop_mod!(#[allow(clippy::all)] pub expression); // synthesized by LALRPOP
 
-fn main() {
-    let expr = expression::ExprParser::new()
-        .parse("2 * (3 - -5 + 7 * 99) / 4")
-        .unwrap();
-    println!("{}", expr);
+#[wasm_bindgen]
+pub fn evaluate(expression: &str) -> i32 {
+    expression::ExprParser::new()
+        .parse(expression)
+        .unwrap()
+        .eval()
 }
 
 #[cfg(test)]
 mod tests {
-    use crate::expression;
+    use crate::evaluate;
     use rstest::rstest;
 
     #[rstest(
@@ -35,9 +38,6 @@ mod tests {
     case("100 + 150 / ((20 - 5) * 5)", 102),
     )]
     fn when_expression_evaluated_then_correct_value_returned(exp: &str, expected: i32) {
-        assert_eq!(
-            expression::ExprParser::new().parse(exp).unwrap().eval(),
-            expected
-        );
+        assert_eq!(evaluate(exp), expected);
     }
 }
